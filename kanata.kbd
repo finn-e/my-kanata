@@ -1,5 +1,5 @@
 ;; Kanata config
-;; layout - ja
+;; layout - jk/by
 ;; Fin o'Flaherty
 ;; 2025-07-26
 ;; 🄯 Unlicense
@@ -18,7 +18,7 @@
             lalt           spc            ralt rctl
 )
 
-(deflayer default
+(deflayer jkby
   XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
   @j   @y   @b   @p   XX   XX   XX   XX        XX   @c   @l   @f   @w   @w
   @a   @i   @o   @e   XX   XX   XX   XX        XX   @d   @n   @s   @r  
@@ -126,12 +126,19 @@
   h (chord main-keys h)
 )
 
+(defalias ;; words
+  the (macro t h e)
+  you (macro y o u)
+  and (macro a (unshift n) (unshift d))
+  bc (macro b e c a u s e)
+)
+
 (defchords main-keys 500
   ;; top row
   (j) (tap-hold-release 200 200 j @msc)
-  (y) (tap-hold-release 200 200 y @fn2)
+  (k) (tap-hold-release 200 200 k @fn2)
   (b) (tap-hold-release 200 200 b @fn1)
-  (p) p
+  (y) y
   (c) c
   (l) (tap-hold-release 200 200 l @fn1)
   (f) (tap-hold-release 200 200 f @fn2)
@@ -141,15 +148,13 @@
   (i) (tap-hold-release 200 200 i lalt)
   (o) (tap-hold-release 200 200 o lctl)
   (e) (tap-hold-release 200 200 e lsft)
-  
   (d) (tap-hold-release 200 200 d rsft)
-
   (n) (tap-hold-release 200 200 n rctl)
   (s) (tap-hold-release 200 200 s lalt)
   (r) (tap-hold-release 200 200 r rmet)
   ;; bottom row
-  (k) (tap-hold-release 200 200 k ralt)
-  (x) (tap-hold-release 200 200 x @msc)
+  (x) (tap-hold-release 200 200 k ralt)
+  (p) (tap-hold-release 200 200 x @msc)
   (u) (tap-hold-release 200 200 u @sym)
   (g) (tap-hold-release 200 200 g @sym)
   (m) (tap-hold-release 200 200 m @msc)
@@ -158,4 +163,75 @@
   (sp) (tap-hold-release 200 200 Space @nav)
   (t) (tap-hold-release 200 200 t @nav)
   (h) (tap-hold-release 200 200 h @num)
+  ;; Left hand verts
+  (j 
+   a) ins
+  (k
+   i) caps
+  (b
+   o) (caps-word 500)
+  (y
+   e) S-9
+  (i 
+   x) C-x
+  (o 
+   p) C-c
+  (e 
+   u) C-v
+  ;; Right hand verts
+  (c
+   d) S-0
+  (l
+   n) (caps-word 500)
+  (f
+   s) caps
+  (w
+   r) ins
+  (d
+   g) C-v
+  (n
+   m) C-c
+  (s
+   v) C-x
+  ;; Left Top Horizontals
+  (j k    ) (one-shot 500 (layer-while-held miscellaneous))
+  (  k b  ) (one-shot 500 (layer-while-held jkby)) ;; bt on bt kbs
+  (    b y) (one-shot 500 (layer-while-held symbols))
+  (j     y) ret
+  (j   b  ) S-tab 
+  (  k   y) tab
+  ;; Right Top Horizontals
+  (c l    ) (one-shot 500 (layer-while-held symbols))
+  (  l f  ) (one-shot 500 (layer-while-held jkby)) ;; bt on bt kbs
+  (    f w) (one-shot 500 (layer-while-held miscellaneous))
+  (c   f  ) tab
+  (c     w) ret
+  (  l   w) S-tab
+  ;; Left Home Horizontals
+  (a i    ) '
+  (  i o  ) .
+  (    o e) -
+  (a   o  ) /
+  (a     e) S-;
+  (  i   e) S-1
+  ;; Right Home Horizontals
+  (d n    ) S--
+  (  n s  ) ,
+  (    s r) S-'
+  (d   s  ) S-/
+  (d     r) ;
+  (  n   r) \
+  ;; Left Bottom Horizontals
+  (x p  ) del
+  (x   u) esc
+  (  p u) bspc
+  ;; Right Bottom Horizontals
+  (g m  ) bspc
+  (g   v) esc
+  (  m v) del
+  ;; thumbs
+  (kr sp) (tap-hold-release 200 200 @you @sym)
+  (t h) (tap-hold-release 200 200 @the @num)
+  (sp t) @and
+  (kr h) @bc
 )
