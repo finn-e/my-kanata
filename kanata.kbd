@@ -15,7 +15,7 @@
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rctl
+            lalt           spc            ralt rctl
 )
 
 (deflayer default
@@ -23,7 +23,7 @@
   @j   @y   @b   @p   XX   XX   XX   XX        XX   @c   @l   @f   @w   @w
   @a   @i   @o   @e   XX   XX   XX   XX        XX   @d   @n   @s   @r  
        @k   @x   @u   XX   XX   XX   XX   XX   XX   @g   @m   @v
-       @lcr @lmt @kr  @spc                     @t   @h
+                 @kr  @spc                     @t   @h
 )
 
 (deflayer navigation
@@ -31,7 +31,7 @@
   @hom @pgd @pgu @end XX   XX   XX   XX        XX   @hom @pgu @pgd @end XX
   left down up  right XX   XX   XX   XX        XX   left up   down right
        left down right XX  XX   XX   XX   XX   XX   left down right
-       _    _    _    _                        _    _
+                 _    _                        _    _
 )
 
 (deflayer numbers
@@ -39,7 +39,7 @@
   XX   7    8    9    XX   XX   XX   XX        XX   7    8    9    XX   XX
   0    4    5    6    XX   XX   XX   XX        XX   4    5    6    0  
        1    2    3    XX   XX   XX   XX   XX   XX   1    2    3
-       _    _    _    _                        _    _
+                 _    _                        _    _
 )
 
 (deflayer symbols
@@ -47,7 +47,7 @@
   XX   S-7  S-8  S-9  XX   XX   XX   XX        XX   S-7  S-8  S-9  XX   XX
   S-0  S-4  S-5  S-6  XX   XX   XX   XX        XX   S-4  S-5  S-6  S-0
        S-1  S-2  S-3  XX   XX   XX   XX   XX   XX   S-1  S-2  S-3
-       _    _    _    _                        _    _
+                 _    _                        _    _
 )
 
 (deflayer functions1
@@ -55,7 +55,7 @@
   F22  F7   F8   F9   XX   XX   XX   XX        XX   F7   F8   F9   F22  F22
   F10  F4   F5   F6   XX   XX   XX   XX        XX   F4   F5   F6   F10
        F1   F2   F3   XX   XX   XX   XX   XX   XX   F1   F2   F3
-       _    _    _    _                        _    _
+                 _    _                        _    _
 )
 
 (deflayer functions2
@@ -63,7 +63,7 @@
   F21  F15  F16  F17  XX   XX   XX   XX        XX   F17  F16  F15  F21  F21
   F20  F14  F15  F16  XX   XX   XX   XX        XX   F14  F15  F16  F20
        F11  F12  F13  XX   XX   XX   XX   XX   XX   F11  F12  F13
-       _    _    _    _                        _    _
+                 _    _                        _    _
 )
 
 (deflayer miscellaneous
@@ -71,7 +71,7 @@
   XX   @vdn @vup @vmu XX   XX   XX   XX        XX   @vmu @vup @vdn XX   XX
   XX   C-x  C-c  C-v  XX   XX   XX   XX        XX   C-v  C-c  C-x  XX
        C-z C-S-z C-s  XX   XX   XX   XX   XX   XX   C-s C-S-z C-z
-       _    _    _    _                        _    _
+                 _    _                        _    _
 )
 
 (defalias ;; other alii
@@ -95,39 +95,67 @@
 
 (defalias ;; main-keys
   ;; top row
-  j (tap-hold-release 200 200 j @msc)
-  y (tap-hold-release 200 200 y @fn2)
-  b (tap-hold-release 200 200 b @fn1)
-  p p
-  c c   
-  l (tap-hold-release 200 200 l @fn1)
-  f (tap-hold-release 200 200 f @fn2)
-  w (tap-hold-release 200 200 w @msc)
+  j (chord main-keys j)
+  y (chord main-keys y)
+  b (chord main-keys b)
+  p (chord main-keys p)
+  c (chord main-keys c)
+  l (chord main-keys l)
+  f (chord main-keys f)
+  w (chord main-keys w)
   ;; home row
-  a (tap-hold-release 200 200 a lmet)
-  i (tap-hold-release 200 200 i lalt)
-  o (tap-hold-release 200 200 o lctl)
-  e (tap-hold-release 200 200 e lsft)
-  d (tap-hold-release 200 200 d rsft)
-  n (tap-hold-release 200 200 n rctl)
-  s (tap-hold-release 200 200 s lalt)
-  r (tap-hold-release 200 200 r rmet)
+  a (chord main-keys a)
+  i (chord main-keys i)
+  o (chord main-keys o)
+  e (chord main-keys e)
+  d (chord main-keys d)
+  n (chord main-keys n)
+  s (chord main-keys s)
+  r (chord main-keys r)
   ;; bottom row
-  k (tap-hold-release 200 200 k ralt)
-  x (tap-hold-release 200 200 x @msc)
-  u (tap-hold-release 200 200 u @sym)
-  g (tap-hold-release 200 200 g @sym)
-  m (tap-hold-release 200 200 m @msc)
-  v (tap-hold-release 200 200 v ralt)
-  lcr ControlLeft
-  lmt MetaLeft
-  kr  (tap-hold-release 200 200 rpt-any @num)
-  spc (tap-hold-release 200 200 Space @nav)
-  t (tap-hold-release 200 200 t @nav)
-  h (tap-hold-release 200 200 h @num)
+  k (chord main-keys k)
+  x (chord main-keys x)
+  u (chord main-keys u)
+  g (chord main-keys g)
+  m (chord main-keys m)
+  v (chord main-keys v)
+  ;; thumbs
+  kr  (chord main-keys kr)
+  spc (chord main-keys sp)
+  t (chord main-keys t)
+  h (chord main-keys h)
 )
 
-(defchords main-chords 500
-  ()
-  (a i o e)
+(defchords main-keys 500
+  ;; top row
+  (j) (tap-hold-release 200 200 j @msc)
+  (y) (tap-hold-release 200 200 y @fn2)
+  (b) (tap-hold-release 200 200 b @fn1)
+  (p) p
+  (c) c
+  (l) (tap-hold-release 200 200 l @fn1)
+  (f) (tap-hold-release 200 200 f @fn2)
+  (w) (tap-hold-release 200 200 w @msc)
+  ;; home row
+  (a) (tap-hold-release 200 200 a lmet)
+  (i) (tap-hold-release 200 200 i lalt)
+  (o) (tap-hold-release 200 200 o lctl)
+  (e) (tap-hold-release 200 200 e lsft)
+  
+  (d) (tap-hold-release 200 200 d rsft)
+
+  (n) (tap-hold-release 200 200 n rctl)
+  (s) (tap-hold-release 200 200 s lalt)
+  (r) (tap-hold-release 200 200 r rmet)
+  ;; bottom row
+  (k) (tap-hold-release 200 200 k ralt)
+  (x) (tap-hold-release 200 200 x @msc)
+  (u) (tap-hold-release 200 200 u @sym)
+  (g) (tap-hold-release 200 200 g @sym)
+  (m) (tap-hold-release 200 200 m @msc)
+  (v) (tap-hold-release 200 200 v ralt)
+  (kr) (tap-hold-release 200 200 rpt-any @num)
+  (sp) (tap-hold-release 200 200 Space @nav)
+  (t) (tap-hold-release 200 200 t @nav)
+  (h) (tap-hold-release 200 200 h @num)
 )
