@@ -8,6 +8,7 @@
   linux-dev /dev/input/by-path/platform-i8042-serio-0-event-kbd
   linux-output-device-name "kanata output - ja layout"
   process-unmapped-keys yes
+  concurrent-tap-hold true
 )
 
 (defsrc
@@ -15,15 +16,40 @@
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-            lalt           spc            ralt rctl
+  lctl lmet lalt           spc            ralt rctl
+)
+
+(deflayer default
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX
+       XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @key XX   XX   XX                            XX   XX
+)
+
+(deflayer qwerty
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  @key    lmet lalt           spc            ralt rctl
 )
 
 (deflayer jkby
   XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
-  @j   @y   @b   @p   XX   XX   XX   XX        XX   @c   @l   @f   @w   @w
+  @j   @k   @b   @y   XX   XX   XX   XX        XX   @c   @l   @f   @w   @w
   @a   @i   @o   @e   XX   XX   XX   XX        XX   @d   @n   @s   @r  
-       @k   @x   @u   XX   XX   XX   XX   XX   XX   @g   @m   @v
-                 @kr  @spc                     @t   @h
+       @x   @p   @u   XX   XX   XX   XX   XX   XX   @g   @m   @v
+       @key lmet @kr  @spc                     @t   @h
+)
+
+(deflayer choice
+  @def @def @def @def @def @def @def @def      @def @def @def @def @def @def 
+  @def @def @def @def @def @def @def @def      @def @def @def @def @def @def
+  @def @def @def @qwe @def @def @def @def      @def @jk  @def @def @def
+       @def @def @def @def @def @def @def @def @def @def @def @def
+       _    @def @def @def                          @def @def
+
 )
 
 (deflayer navigation
@@ -31,7 +57,7 @@
   @hom @pgd @pgu @end XX   XX   XX   XX        XX   @hom @pgu @pgd @end XX
   left down up  right XX   XX   XX   XX        XX   left up   down right
        left down right XX  XX   XX   XX   XX   XX   left down right
-                 _    _                        _    _
+       _    _    _    _                        _    _
 )
 
 (deflayer numbers
@@ -39,7 +65,7 @@
   XX   7    8    9    XX   XX   XX   XX        XX   7    8    9    XX   XX
   0    4    5    6    XX   XX   XX   XX        XX   4    5    6    0  
        1    2    3    XX   XX   XX   XX   XX   XX   1    2    3
-                 _    _                        _    _
+       _    _    _    _                        _    _
 )
 
 (deflayer symbols
@@ -47,7 +73,7 @@
   XX   S-7  S-8  S-9  XX   XX   XX   XX        XX   S-7  S-8  S-9  XX   XX
   S-0  S-4  S-5  S-6  XX   XX   XX   XX        XX   S-4  S-5  S-6  S-0
        S-1  S-2  S-3  XX   XX   XX   XX   XX   XX   S-1  S-2  S-3
-                 _    _                        _    _
+       _    _    _    _                        _    _
 )
 
 (deflayer functions1
@@ -55,7 +81,7 @@
   F22  F7   F8   F9   XX   XX   XX   XX        XX   F7   F8   F9   F22  F22
   F10  F4   F5   F6   XX   XX   XX   XX        XX   F4   F5   F6   F10
        F1   F2   F3   XX   XX   XX   XX   XX   XX   F1   F2   F3
-                 _    _                        _    _
+       _    _    _    _                        _    _
 )
 
 (deflayer functions2
@@ -63,7 +89,7 @@
   F21  F15  F16  F17  XX   XX   XX   XX        XX   F17  F16  F15  F21  F21
   F20  F14  F15  F16  XX   XX   XX   XX        XX   F14  F15  F16  F20
        F11  F12  F13  XX   XX   XX   XX   XX   XX   F11  F12  F13
-                 _    _                        _    _
+       _    _    _    _                        _    _
 )
 
 (deflayer miscellaneous
@@ -71,7 +97,7 @@
   XX   @vdn @vup @vmu XX   XX   XX   XX        XX   @vmu @vup @vdn XX   XX
   XX   C-x  C-c  C-v  XX   XX   XX   XX        XX   C-v  C-c  C-x  XX
        C-z C-S-z C-s  XX   XX   XX   XX   XX   XX   C-s C-S-z C-z
-                 _    _                        _    _
+       _    _    _    _                        _    _
 )
 
 (defalias ;; other alii
@@ -85,153 +111,140 @@
 )
 
 (defalias ;; layers
+  def (layer-switch default)
+  qwe (layer-switch qwerty)
+  jk  (layer-switch jkby) 
+  cho (layer-switch choice)
   nav (layer-while-held navigation)
   num (layer-while-held numbers)
   fn1 (layer-while-held functions1)
   fn2 (layer-while-held functions2)
   msc (layer-while-held miscellaneous)
   sym (layer-while-held symbols)
+  key (tap-hold-release 200 200 @cho lctl)
+)
+
+(defalias ;; words
+  the (macro t (unshift h) (unshift e) (unshift spc))
+  you (macro y (unshift o) (unshift u) (unshift spc))
+  and (macro a (unshift n) (unshift d) (unshift spc))
+  bc (macro b (unshift e) (unshift c) (unshift a) (unshift u) (unshift s) (unshift e) (unshift spc))
 )
 
 (defalias ;; main-keys
   ;; top row
-  j (chord main-keys j)
-  y (chord main-keys y)
-  b (chord main-keys b)
-  p (chord main-keys p)
-  c (chord main-keys c)
-  l (chord main-keys l)
-  f (chord main-keys f)
-  w (chord main-keys w)
+  j (tap-hold-release 200 200 j @msc)
+  k (tap-hold-release 200 200 k @fn2)
+  b (tap-hold-release 200 200 b @fn1)
+  y y
+  c c
+  l (tap-hold-release 200 200 l @fn1)
+  f (tap-hold-release 200 200 f @fn2)
+  w (tap-hold-release 200 200 w @msc)
   ;; home row
-  a (chord main-keys a)
-  i (chord main-keys i)
-  o (chord main-keys o)
-  e (chord main-keys e)
-  d (chord main-keys d)
-  n (chord main-keys n)
-  s (chord main-keys s)
-  r (chord main-keys r)
+  a (tap-hold-release 200 200 a lmet)
+  i (tap-hold-release 200 200 i lalt)
+  o (tap-hold-release 200 200 o lctl)
+  e (tap-hold-release 200 200 e lsft)
+  d (tap-hold-release 200 200 d rsft)
+  n (tap-hold-release 200 200 n rctl)
+  s (tap-hold-release 200 200 s lalt)
+  r (tap-hold-release 200 200 r rmet)
   ;; bottom row
-  k (chord main-keys k)
-  x (chord main-keys x)
-  u (chord main-keys u)
-  g (chord main-keys g)
-  m (chord main-keys m)
-  v (chord main-keys v)
-  ;; thumbs
-  kr  (chord main-keys kr)
-  spc (chord main-keys sp)
-  t (chord main-keys t)
-  h (chord main-keys h)
+  x (tap-hold-release 200 200 k ralt)
+  p (tap-hold-release 200 200 x @msc)
+  u (tap-hold-release 200 200 u @sym)
+  g (tap-hold-release 200 200 g @sym)
+  m (tap-hold-release 200 200 m @msc)
+  v (tap-hold-release 200 200 v ralt)
+  kr (tap-hold-release 200 200 rpt-any @num)
+  spc (tap-hold-release 200 200 Space @nav)
+  t (tap-hold-release 200 200 t @nav)
+  h (tap-hold-release 200 200 h @num)
 )
 
-(defalias ;; words
-  the (macro t h e)
-  you (macro y o u)
-  and (macro a (unshift n) (unshift d))
-  bc (macro b e c a u s e)
-)
-
-(defchords main-keys 500
-  ;; top row
-  (j) (tap-hold-release 200 200 j @msc)
-  (k) (tap-hold-release 200 200 k @fn2)
-  (b) (tap-hold-release 200 200 b @fn1)
-  (y) y
-  (c) c
-  (l) (tap-hold-release 200 200 l @fn1)
-  (f) (tap-hold-release 200 200 f @fn2)
-  (w) (tap-hold-release 200 200 w @msc)
-  ;; home row
-  (a) (tap-hold-release 200 200 a lmet)
-  (i) (tap-hold-release 200 200 i lalt)
-  (o) (tap-hold-release 200 200 o lctl)
-  (e) (tap-hold-release 200 200 e lsft)
-  (d) (tap-hold-release 200 200 d rsft)
-  (n) (tap-hold-release 200 200 n rctl)
-  (s) (tap-hold-release 200 200 s lalt)
-  (r) (tap-hold-release 200 200 r rmet)
-  ;; bottom row
-  (x) (tap-hold-release 200 200 k ralt)
-  (p) (tap-hold-release 200 200 x @msc)
-  (u) (tap-hold-release 200 200 u @sym)
-  (g) (tap-hold-release 200 200 g @sym)
-  (m) (tap-hold-release 200 200 m @msc)
-  (v) (tap-hold-release 200 200 v ralt)
-  (kr) (tap-hold-release 200 200 rpt-any @num)
-  (sp) (tap-hold-release 200 200 Space @nav)
-  (t) (tap-hold-release 200 200 t @nav)
-  (h) (tap-hold-release 200 200 h @num)
+(defchordsv2
   ;; Left hand verts
-  (j 
-   a) ins
-  (k
-   i) caps
-  (b
-   o) (caps-word 500)
-  (y
-   e) S-9
-  (i 
-   x) C-x
-  (o 
-   p) C-c
-  (e 
-   u) C-v
+  (tab caps) ins 50 all-released (default qwerty choice)
+  (q a) caps 50 all-released (default qwerty choice)
+  (w s) (caps-word 500) 50 all-released (default qwerty choice)
+  (e d)  S-9 50 all-released (default qwerty choice)
+  (a lsft)  C-x 50 all-released (default qwerty choice)
+  (s z)  C-c 50 all-released (default qwerty choice)
+  (d x)  C-v 50 all-released (default qwerty choice)
   ;; Right hand verts
-  (c
-   d) S-0
-  (l
-   n) (caps-word 500)
-  (f
-   s) caps
-  (w
-   r) ins
-  (d
-   g) C-v
-  (n
-   m) C-c
-  (s
-   v) C-x
+  (l o)  S-0 50 all-released (default qwerty choice)
+  (; p)  (caps-word 500) 50 all-released (default qwerty choice)
+  (' [)  caps 50 all-released (default qwerty choice)
+  (] ret)  ins 50 all-released (default qwerty choice)
+  (l .)  C-v 50 all-released (default qwerty choice)
+  (; /)  C-c 50 all-released (default qwerty choice)
+  (' rsft)  C-x 50 all-released (default qwerty choice)
   ;; Left Top Horizontals
-  (j k    ) (one-shot 500 (layer-while-held miscellaneous))
-  (  k b  ) (one-shot 500 (layer-while-held jkby)) ;; bt on bt kbs
-  (    b y) (one-shot 500 (layer-while-held symbols))
-  (j     y) ret
-  (j   b  ) S-tab 
-  (  k   y) tab
+  (tab q    )  (one-shot 500 (layer-while-held miscellaneous)) 50 all-released (default qwerty choice)
+  (tab   w  )  S-tab  50 all-released (default qwerty choice)
+  (tab     e)  ret 50 all-released (default qwerty choice)
+  (    q w  )  (one-shot 500 (layer-while-held jkby)) 50 all-released (default qwerty choice) ;; bt on bt kbs 
+  (    q   e)  tab 50 all-released (default qwerty choice)
+  (      w e)  (one-shot 500 (layer-while-held symbols)) 50 all-released (default qwerty choice)
   ;; Right Top Horizontals
-  (c l    ) (one-shot 500 (layer-while-held symbols))
-  (  l f  ) (one-shot 500 (layer-while-held jkby)) ;; bt on bt kbs
-  (    f w) (one-shot 500 (layer-while-held miscellaneous))
-  (c   f  ) tab
-  (c     w) ret
-  (  l   w) S-tab
+  (o p    )  (one-shot 500 (layer-while-held symbols)) 50 all-released (default qwerty choice)
+  (o   [  )  tab 50 all-released (default qwerty choice)
+  (o     ])  ret 50 all-released (default qwerty choice)
+  (p   [  )  (one-shot 500 (layer-while-held jkby)) 50 all-released (default qwerty choice) ;; bt on bt kbs
+  (p     ])  S-tab 50 all-released (default qwerty choice)
+  (    [ ])  (one-shot 500 (layer-while-held miscellaneous)) 50 all-released (default qwerty choice)
   ;; Left Home Horizontals
-  (a i    ) '
-  (  i o  ) .
-  (    o e) -
-  (a   o  ) /
-  (a     e) S-;
-  (  i   e) S-1
+  (caps a    )  ' 50 all-released (default qwerty choice)
+  (caps   s  )  / 50 all-released (default qwerty choice)
+  (caps     d)  S-; 50 all-released (default qwerty choice)
+  (     a s  )  . 50 all-released (default qwerty choice)
+  (     a   d)  S-1 50 all-released (default qwerty choice)
+  (       s d)  - 50 all-released (default qwerty choice)
   ;; Right Home Horizontals
-  (d n    ) S--
-  (  n s  ) ,
-  (    s r) S-'
-  (d   s  ) S-/
-  (d     r) ;
-  (  n   r) \
+  (l ;      )  S-- 50 all-released (default qwerty choice)
+  (l   '    )  S-/ 50 all-released (default qwerty choice)
+  (l     ret)  ; 50 all-released (default qwerty choice)
+  (  ; '    )  , 50 all-released (default qwerty choice)
+  (  ;   ret)  \ 50 all-released (default qwerty choice)
+  (    ' ret)  S-' 50 all-released (default qwerty choice)
   ;; Left Bottom Horizontals
-  (x p  ) del
-  (x   u) esc
-  (  p u) bspc
+  (. /     )  bspc 50 all-released (default qwerty choice)
+  (.   rsft)  del 50 all-released (default qwerty choice)
+  (  / rsft)  esc 50 all-released (default qwerty choice)
+  (. / rsft)  prtsc 50 all-released (default qwerty choice)
   ;; Right Bottom Horizontals
-  (g m  ) bspc
-  (g   v) esc
-  (  m v) del
+  (lsft z  )  esc 50 all-released (default qwerty choice)
+  (lsft   x)  del 50 all-released (default qwerty choice)
+  (     z x)  bspc 50 all-released (default qwerty choice)
+  (lsft z x)  prtsc 50 all-released (default qwerty choice)
   ;; thumbs
-  (kr sp) (tap-hold-release 200 200 @you @sym)
-  (t h) (tap-hold-release 200 200 @the @num)
-  (sp t) @and
-  (kr h) @bc
+  (lalt spc )  @you 50 all-released (default qwerty choice)
+  (ralt rctl)  @the 50 all-released (default qwerty choice)
+  (spc ralt )  @and 50 all-released (default qwerty choice)
+  (lalt rctl)  @bc 50 all-released (default qwerty choice)
+  ;; Left brackets, uncommon letters &c
+  (caps q )  lbrc 50 all-released (default qwerty choice)
+  (tab a  )  S-lbrc 50 all-released (default qwerty choice)
+  (  q   
+       s  )  S-, 50 all-released (default qwerty choice)
+  (    w  
+     a    )  S-\  50 all-released (default qwerty choice)
+  (      e
+       s  )  j 50 all-released (default qwerty choice)
+  (    w  
+         d)  q 50 all-released (default qwerty choice)
+  ;; Right brackets, uncommon letters &c
+  (  p    
+   l        )  z 50 all-released (default qwerty choice)
+  (o      
+     ;      )  x 50 all-released (default qwerty choice)
+  (  p    
+       '    )  S-7 50 all-released (default qwerty choice)
+  (    [
+     ;      )  S-. 50 all-released (default qwerty choice)
+  (      ]
+       '    )  S-rbrc 50 all-released (default qwerty choice)
+  (    [  
+         ret)  rbrc 50 all-released (default qwerty choice)
 )
