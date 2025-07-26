@@ -1,0 +1,133 @@
+;; Kanata config
+;; layout - ja
+;; Fin o'Flaherty
+;; 2025-07-26
+;; 🄯 Unlicense
+
+(defcfg 
+  linux-dev /dev/input/by-path/platform-i8042-serio-0-event-kbd
+  linux-output-device-name "kanata output - ja layout"
+  process-unmapped-keys yes
+)
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rctl
+)
+
+(deflayer default
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  @j   @y   @b   @p   XX   XX   XX   XX        XX   @c   @l   @f   @w   @w
+  @a   @i   @o   @e   XX   XX   XX   XX        XX   @d   @n   @s   @r  
+       @k   @x   @u   XX   XX   XX   XX   XX   XX   @g   @m   @v
+       @lcr @lmt @kr  @spc                     @t   @h
+)
+
+(deflayer navigation
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  @hom @pgd @pgu @end XX   XX   XX   XX        XX   @hom @pgu @pgd @end XX
+  left down up  right XX   XX   XX   XX        XX   left up   down right
+       left down right XX  XX   XX   XX   XX   XX   left down right
+       _    _    _    _                        _    _
+)
+
+(deflayer numbers
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  XX   7    8    9    XX   XX   XX   XX        XX   7    8    9    XX   XX
+  0    4    5    6    XX   XX   XX   XX        XX   4    5    6    0  
+       1    2    3    XX   XX   XX   XX   XX   XX   1    2    3
+       _    _    _    _                        _    _
+)
+
+(deflayer symbols
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  XX   S-7  S-8  S-9  XX   XX   XX   XX        XX   S-7  S-8  S-9  XX   XX
+  S-0  S-4  S-5  S-6  XX   XX   XX   XX        XX   S-4  S-5  S-6  S-0
+       S-1  S-2  S-3  XX   XX   XX   XX   XX   XX   S-1  S-2  S-3
+       _    _    _    _                        _    _
+)
+
+(deflayer functions1
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  F22  F7   F8   F9   XX   XX   XX   XX        XX   F7   F8   F9   F22  F22
+  F10  F4   F5   F6   XX   XX   XX   XX        XX   F4   F5   F6   F10
+       F1   F2   F3   XX   XX   XX   XX   XX   XX   F1   F2   F3
+       _    _    _    _                        _    _
+)
+
+(deflayer functions2
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  F21  F15  F16  F17  XX   XX   XX   XX        XX   F17  F16  F15  F21  F21
+  F20  F14  F15  F16  XX   XX   XX   XX        XX   F14  F15  F16  F20
+       F11  F12  F13  XX   XX   XX   XX   XX   XX   F11  F12  F13
+       _    _    _    _                        _    _
+)
+
+(deflayer miscellaneous
+  XX   XX   XX   XX   XX   XX   XX   XX        XX   XX   XX   XX   XX   XX 
+  XX   @vdn @vup @vmu XX   XX   XX   XX        XX   @vmu @vup @vdn XX   XX
+  XX   C-x  C-c  C-v  XX   XX   XX   XX        XX   C-v  C-c  C-x  XX
+       C-z C-S-z C-s  XX   XX   XX   XX   XX   XX   C-s C-S-z C-z
+       _    _    _    _                        _    _
+)
+
+(defalias ;; other alii
+  hom (tap-hold-release 200 200 home lmet)
+  pgd (tap-hold-release 200 200 pgdn lalt)
+  pgu (tap-hold-release 200 200 pgup lctl)
+  end (tap-hold-release 200 200 end lsft)
+  vup VolumeUp
+  vdn VolumeDown
+  vmu VolumeMute
+)
+
+(defalias ;; layers
+  nav (layer-while-held navigation)
+  num (layer-while-held numbers)
+  fn1 (layer-while-held functions1)
+  fn2 (layer-while-held functions2)
+  msc (layer-while-held miscellaneous)
+  sym (layer-while-held symbols)
+)
+
+(defalias ;; main-keys
+  ;; top row
+  j (tap-hold-release 200 200 j @msc)
+  y (tap-hold-release 200 200 y @fn2)
+  b (tap-hold-release 200 200 b @fn1)
+  p p
+  c c   
+  l (tap-hold-release 200 200 l @fn1)
+  f (tap-hold-release 200 200 f @fn2)
+  w (tap-hold-release 200 200 w @msc)
+  ;; home row
+  a (tap-hold-release 200 200 a lmet)
+  i (tap-hold-release 200 200 i lalt)
+  o (tap-hold-release 200 200 o lctl)
+  e (tap-hold-release 200 200 e lsft)
+  d (tap-hold-release 200 200 d rsft)
+  n (tap-hold-release 200 200 n rctl)
+  s (tap-hold-release 200 200 s lalt)
+  r (tap-hold-release 200 200 r rmet)
+  ;; bottom row
+  k (tap-hold-release 200 200 k ralt)
+  x (tap-hold-release 200 200 x @msc)
+  u (tap-hold-release 200 200 u @sym)
+  g (tap-hold-release 200 200 g @sym)
+  m (tap-hold-release 200 200 m @msc)
+  v (tap-hold-release 200 200 v ralt)
+  lcr ControlLeft
+  lmt MetaLeft
+  kr  (tap-hold-release 200 200 rpt-any @num)
+  spc (tap-hold-release 200 200 Space @nav)
+  t (tap-hold-release 200 200 t @nav)
+  h (tap-hold-release 200 200 h @num)
+)
+
+(defchords main-chords 500
+  ()
+  (a i o e)
+)
