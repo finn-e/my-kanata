@@ -125,10 +125,10 @@
 )
 
 (defalias ;; words
-  the (macro t (unshift h) (unshift e) (unshift spc))
-  you (macro y (unshift o) (unshift u) (unshift spc))
-  and (macro a (unshift n) (unshift d) (unshift spc))
-  bc (macro b (unshift e) (unshift c) (unshift a) (unshift u) (unshift s) (unshift e) (unshift spc))
+  the (macro t (unshift h) (unshift e))
+  you (macro y (unshift o) (unshift u))
+  and (macro a (unshift n) (unshift d))
+  bc (macro b (unshift e) (unshift c) (unshift a) (unshift u) (unshift s) (unshift e))
 )
 
 (defalias ;; main-keys
@@ -151,8 +151,8 @@
   s (tap-hold-release 200 200 s lalt)
   r (tap-hold-release 200 200 r rmet)
   ;; bottom row
-  x (tap-hold-release 200 200 k ralt)
-  p (tap-hold-release 200 200 x @msc)
+  x (tap-hold-release 200 200 x ralt)
+  p (tap-hold-release 200 200 p @msc)
   u (tap-hold-release 200 200 u @sym)
   g (tap-hold-release 200 200 g @sym)
   m (tap-hold-release 200 200 m @msc)
@@ -218,11 +218,6 @@
   (lsft   x)  del 50 all-released (default qwerty choice)
   (     z x)  bspc 50 all-released (default qwerty choice)
   (lsft z x)  prtsc 50 all-released (default qwerty choice)
-  ;; thumbs
-  (lalt spc )  @you 50 all-released (default qwerty choice)
-  (ralt rctl)  @the 50 all-released (default qwerty choice)
-  (spc ralt )  @and 50 all-released (default qwerty choice)
-  (lalt rctl)  @bc 50 all-released (default qwerty choice)
   ;; Left brackets, uncommon letters &c
   (caps q )  lbrc 50 all-released (default qwerty choice)
   (tab a  )  S-lbrc 50 all-released (default qwerty choice)
@@ -247,4 +242,9 @@
        '    )  S-rbrc 50 all-released (default qwerty choice)
   (    [  
          ret)  rbrc 50 all-released (default qwerty choice)
+  ;; thumbs
+  (lalt spc )  @you 50 all-released (default qwerty choice)
+  (ralt rctl)  @the 50 all-released (default qwerty choice)
+  (spc ralt )  @and 50 all-released (default qwerty choice)
+  (lalt rctl)  @bc 50 all-released (default qwerty choice)
 )
