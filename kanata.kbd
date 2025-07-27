@@ -204,7 +204,7 @@
   ;; Right Home Horizontals
   (l ;      )  - 50 all-released (default qwerty choice)
   (l   '    )  S-1 50 all-released (default qwerty choice)
-  (l     ret)  : 50 all-released (default qwerty choice)
+  (l     ret)  S-; 50 all-released (default qwerty choice)
   (  ; '    )  . 50 all-released (default qwerty choice)
   (  ;   ret)  / 50 all-released (default qwerty choice)
   (    ' ret)  S-' 50 all-released (default qwerty choice)
